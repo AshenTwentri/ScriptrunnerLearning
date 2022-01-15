@@ -1,0 +1,7 @@
+import com.atlassian.jira.component.ComponentAccessor
+import com.atlassian.jira.issue.IssueManager
+
+def num1 = ComponentAccessor.getCustomFieldManager().getCustomFieldObjectsByName("TestNum1")
+def num2 = ComponentAccessor.getCustomFieldManager().getCustomFieldObjectsByName("TestNum2")
+
+return (issue.getCustomFieldValue(num1) as Double) + (issue.getCustomFieldValue(num2) as Double)

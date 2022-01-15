@@ -1,0 +1,13 @@
+import com.atlassian.jira.component.ComponentAccessor
+
+
+
+if (issue.getIssueType().name != "Sub-task") 
+{ 
+    def subTaskSum = 0
+    issue.getSubTaskObjects()?.each 
+    { subtask -> // go through all subTask issues
+            subTaskSum += 1
+    }
+    return subTaskSum
+}
