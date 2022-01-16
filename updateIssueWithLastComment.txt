@@ -1,0 +1,22 @@
+import com.atlassian.jira.component.ComponentAccessor
+import com.atlassian.jira.issue.IssueManager
+import com.atlassian.jira.issue.MutableIssue;
+
+def loggedInUser = ComponentAccessor.jiraAuthenticationContext.loggedInUser
+def issueService = ComponentAccessor.issueService
+
+def issue = event.issue
+def issueId = issue.id
+def comment = event.getComment()
+def commentBody = event.getComment().getBody()
+def input = issueService.newIssueInputParameters()
+
+input.setDescription(commentBody)
+
+def updateValidationResult = issueService.validateUpdate(loggedInUser, issueId, input)
+
+assert updateValidationResult.isValid() : updateValidationResult.errorCollection
+
+def issueResult = issueService.update(loggedInUser, updateValidationResult)
+
+assert issueResult.isValid() : issueResult.errorCollection
